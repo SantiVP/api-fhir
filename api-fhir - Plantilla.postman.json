@@ -1,0 +1,133 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-1234-56789abcdef0",
+    "name": "api-fhir - Plantila",
+    "description": "Colección para probar la API FHIR nativa",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Pacientes",
+      "item": [
+        {
+          "name": "Listar todos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/Patient",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "Patient"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/Patient/550e8400-e29b-41d4-a716-446655440000",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "Patient",
+                "550e8400-e29b-41d4-a716-446655440000"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear paciente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/fhir+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Patient\",\n  \"identifier\": [\n    {\n      \"use\": \"official\",\n      \"system\": \"http://www.renaper.gob.ar/dni\",\n      \"value\": \"35123456\"\n    }\n  ],\n  \"name\": [\n    {\n      \"use\": \"official\",\n      \"family\": \"Pérez\",\n      \"given\": [\n        \"Juan\",\n        \"Carlos\"\n      ]\n    }\n  ],\n  \"gender\": \"male\",\n  \"birthDate\": \"1990-05-15\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/Patient",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "Patient"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Errores (casos de prueba)",
+      "item": [
+        {
+          "name": "Resource Type inválido (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/fhir+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Patient\",\n  \"gender\": \"male\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/Observation",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "Observation"
+              ]
+            },
+            "description": "Debe retornar 400 - El resourceType del body no coincide con la URL"
+          },
+          "response": []
+        },
+        {
+          "name": "ID inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/Patient/99999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "Patient",
+                "99999"
+              ]
+            },
+            "description": "Debe retornar 404 - Recurso no encontrado"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    }
+  ]
+}
